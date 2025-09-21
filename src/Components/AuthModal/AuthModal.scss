@@ -1,0 +1,577 @@
+.authModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  cursor: pointer;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .authModalContent {
+    background: rgba(26, 11, 46, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(187, 134, 252, 0.2);
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.4s ease-out;
+    margin: 20px;
+    transition: all 0.5s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+    cursor: auto;
+    pointer-events: auto;
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    &.success {
+      border-color: rgba(76, 217, 100, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(76, 217, 100, 0.2);
+    }
+
+    &.loading {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    &.verification {
+      .inputContainer input {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        letter-spacing: 8px;
+      }
+    }
+
+    .closeButton {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #B8B8CC;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.2);
+        color: #F5F5F7;
+        transform: scale(1.1);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+    }
+
+    .authLogo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      cursor: default;
+
+      .logoImage {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        transition: all 0.3s ease;
+      }
+
+      .logoText {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+
+        .aiText {
+          color: #F5F5F7;
+          font-weight: 800;
+          font-size: 1.8rem;
+          transition: color 0.3s ease;
+        }
+
+        .nuraText {
+          color: #BB86FC;
+          font-weight: 800;
+          font-size: 1.8rem;
+          transition: color 0.3s ease;
+        }
+      }
+
+      &:hover {
+        .logoImage {
+          transform: scale(1.05);
+        }
+
+        .logoText {
+          .aiText {
+            color: #BB86FC;
+          }
+
+          .nuraText {
+            color: #F5F5F7;
+          }
+        }
+      }
+    }
+
+    .authHeader {
+      text-align: center;
+      margin-bottom: 24px;
+      cursor: default;
+
+      h2 {
+        color: #F5F5F7;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        background: linear-gradient(135deg, #BB86FC, #6C63FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        user-select: none;
+      }
+
+      p {
+        color: #B8B8CC;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        user-select: none;
+      }
+    }
+
+    .errorMessage {
+      margin-bottom: 16px;
+      padding: 12px;
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px solid rgba(231, 76, 60, 0.3);
+      border-radius: 8px;
+      animation: errorShake 0.4s ease-out;
+      cursor: default;
+
+      &.general {
+        margin-bottom: 20px;
+      }
+
+      p {
+        color: #E74C3C;
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin: 0;
+        text-align: center;
+        user-select: none;
+      }
+
+      @keyframes errorShake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+      }
+    }
+
+    .successMessage {
+      text-align: center;
+      margin: 24px 0;
+      animation: successPulse 0.6s ease-out;
+      cursor: default;
+
+      .successIcon {
+        color: #4CD964;
+        margin-bottom: 16px;
+        animation: successIconBounce 0.8s ease-out;
+      }
+
+      p {
+        color: #4CD964;
+        font-size: 1rem;
+        font-weight: 600;
+        user-select: none;
+      }
+
+      @keyframes successPulse {
+        0% {
+          opacity: 0;
+          transform: scale(0.8);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes successIconBounce {
+        0%, 20%, 50%, 80%, 100% {
+          transform: translateY(0);
+        }
+        40% {
+          transform: translateY(-10px);
+        }
+        60% {
+          transform: translateY(-5px);
+        }
+      }
+    }
+
+    .authForm {
+      .nameFields {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+
+        .inputGroup.half {
+          flex: 1;
+          margin-bottom: 0;
+        }
+      }
+      
+      .inputGroup {
+        margin-bottom: 16px;
+
+        .inputContainer {
+          position: relative;
+          display: flex;
+          align-items: center;
+
+          .inputIcon {
+            position: absolute;
+            left: 16px;
+            color: #BB86FC;
+            z-index: 1;
+            transition: color 0.3s ease;
+            pointer-events: none;
+          }
+
+          input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: rgba(245, 245, 247, 0.05);
+            border: 2px solid rgba(187, 134, 252, 0.2);
+            border-radius: 12px;
+            color: #F5F5F7;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: text;
+
+            &::placeholder {
+              color: #B8B8CC;
+            }
+
+            &:focus {
+              outline: none;
+              border-color: #BB86FC;
+              background: rgba(245, 245, 247, 0.08);
+              box-shadow: 0 0 0 4px rgba(187, 134, 252, 0.1);
+            }
+
+            &.error {
+              border-color: #E74C3C;
+              background: rgba(231, 76, 60, 0.05);
+
+              &:focus {
+                border-color: #E74C3C;
+                box-shadow: 0 0 0 4px rgba(231, 76, 60, 0.1);
+              }
+            }
+
+            &:disabled {
+              opacity: 0.7;
+              cursor: not-allowed;
+              background: rgba(245, 245, 247, 0.02);
+            }
+          }
+
+          .togglePassword {
+            position: absolute;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #B8B8CC;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover:not(:disabled) {
+              color: #BB86FC;
+              transform: scale(1.1);
+            }
+
+            &:disabled {
+              opacity: 0.5;
+              cursor: not-allowed;
+              transform: none;
+            }
+          }
+        }
+
+        .errorMessage {
+          margin-top: 8px;
+          margin-bottom: 0;
+          text-align: left;
+
+          p {
+            text-align: left;
+            font-size: 0.8rem;
+          }
+        }
+      }
+
+      .forgotPassword {
+        text-align: right;
+        margin-bottom: 20px;
+
+        .forgotPasswordBtn {
+          background: none;
+          border: none;
+          color: #BB86FC;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover:not(:disabled) {
+            text-decoration: underline;
+            color: #6C63FF;
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      .submitBtn {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #BB86FC, #6C63FF);
+        border: none;
+        border-radius: 12px;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+
+        .loadingIcon {
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        &:hover:not(:disabled) {
+          background: linear-gradient(135deg, #6C63FF, #BB86FC);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(187, 134, 252, 0.4);
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(0);
+        }
+
+        &:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+          transform: none;
+          background: linear-gradient(135deg, #999, #666);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      // Verification code specific styles
+      .resendSection {
+        text-align: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(187, 134, 252, 0.1);
+
+        p {
+          color: #B8B8CC;
+          font-size: 0.9rem;
+          margin-bottom: 10px;
+        }
+
+        .resendBtn {
+          background: none;
+          border: none;
+          color: #BB86FC;
+          font-size: 0.9rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover:not(:disabled) {
+            color: #6C63FF;
+            text-decoration: underline;
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+
+    .authFooter {
+      text-align: center;
+      margin-top: 24px;
+      cursor: default;
+
+      p {
+        color: #B8B8CC;
+        font-size: 0.9rem;
+        user-select: none;
+
+        .toggleModeBtn {
+          background: none;
+          border: none;
+          color: #BB86FC;
+          font-weight: 600;
+          cursor: pointer;
+          margin-left: 6px;
+          transition: all 0.3s ease;
+
+          &:hover:not(:disabled) {
+            color: #6C63FF;
+            text-decoration: underline;
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+      }
+    }
+
+    // Mobile responsive
+    @media (max-width: 480px) {
+      padding: 24px 20px;
+      margin: 16px;
+      border-radius: 20px;
+
+      .authLogo {
+        .logoImage {
+          width: 40px;
+          height: 40px;
+        }
+
+        .logoText {
+          .aiText,
+          .nuraText {
+            font-size: 1.5rem;
+          }
+        }
+      }
+
+      .authHeader h2 {
+        font-size: 1.8rem;
+      }
+
+      .authForm {
+        .nameFields {
+          flex-direction: column;
+          gap: 16px;
+
+          .inputGroup.half {
+            margin-bottom: 16px;
+          }
+        }
+
+        .inputGroup .inputContainer input {
+          padding: 14px 14px 14px 44px;
+          font-size: 0.85rem;
+        }
+
+        .submitBtn {
+          padding: 14px;
+          font-size: 0.9rem;
+        }
+      }
+
+      .successMessage {
+        .successIcon {
+          width: 40px !important;
+          height: 40px !important;
+        }
+
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    @media (max-width: 360px) {
+      padding: 20px 16px;
+      margin: 12px;
+
+      .authLogo {
+        .logoImage {
+          width: 36px;
+          height: 36px;
+        }
+
+        .logoText {
+          .aiText,
+          .nuraText {
+            font-size: 1.3rem;
+          }
+        }
+      }
+
+      .authHeader h2 {
+        font-size: 1.6rem;
+      }
+
+      .closeButton {
+        width: 36px;
+        height: 36px;
+        top: 12px;
+        right: 12px;
+      }
+    }
+  }
+}

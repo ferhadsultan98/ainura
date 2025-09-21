@@ -1,0 +1,185 @@
+/* Ana galeri konteyneri */
+.imageGallery {
+  width: 100%;
+  min-height: 100vh;
+  color: #F5F5F7;
+  position: relative;
+
+  /* Galeri başlığı */
+  .galleryHeader {
+    text-align: center;
+   
+    .galleryTitle {
+      font-size: 3rem;
+      font-weight: 800;
+      color: #BB86FC;
+    }
+  }
+
+  /* Ana Grid Konteyneri (Masaüstü için) */
+  .featureColumnGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 250px; 
+    gap: 5px;
+    box-sizing: border-box;
+    position: relative;
+
+    .gridItem {
+      overflow: hidden;
+      cursor: pointer;
+      background-color: #2C0E45;
+      transition: box-shadow 0.3s ease, transform 0.3s ease, opacity 0.6s ease, filter 0.6s ease;
+      border-radius: 10px;
+
+      &:hover {
+        box-shadow: 0 12px 24px rgba(187, 134, 252, 0.35);
+        z-index: 1;
+      }
+
+      .imageCard, img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      
+      &.item-standard {
+        grid-row: span 1; 
+      }
+      &.item-tall {
+        grid-row: span 2;
+      }
+
+      /* Lazy Load Animation */
+      &.lazy-item {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+        filter: blur(5px);
+        animation: lazyFadeIn 0.8s ease-out forwards;
+      }
+    }
+  }
+
+  /* Blur Fade Overlay */
+  .blurFadeOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    pointer-events: none;
+    z-index: 2;
+
+    .blurGradient {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(44, 14, 69, 0.3) 40%,
+        rgba(44, 14, 69, 0.7) 70%,
+        rgba(44, 14, 69, 0.95) 100%
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  }
+
+  /* Loading Trigger */
+  .loadingTrigger {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+
+    .loadingSpinner {
+      color: #BB86FC;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0.8;
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+
+  /* Animasyonlar */
+  @keyframes lazyFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      filter: blur(8px);
+    }
+    50% {
+      opacity: 0.7;
+      transform: translateY(15px) scale(0.98);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  /* --- RESPONSIVE DEĞİŞİKLİKLERİ --- */
+
+  /* Tablet ve Mobil Görünüm (992px ve altı) */
+  @media (max-width: 992px) {
+    .galleryHeader {
+      .galleryTitle { font-size: 2.5rem; }
+    }
+
+    .featureColumnGrid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+
+      .gridItem {
+        grid-row: auto;
+        grid-column: auto;
+        aspect-ratio: 16 / 10;
+        height: auto;
+      }
+    }
+
+    .blurFadeOverlay {
+      height: 150px;
+    }
+  }
+
+  /* Mobil Görünüm (768px ve altı) */
+  @media (max-width: 768px) {
+    .galleryHeader {
+      .galleryTitle { font-size: 2rem; }
+    }
+
+    .blurFadeOverlay {
+      height: 120px;
+      
+      .blurGradient {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+    }
+
+    .loadingTrigger {
+      height: 80px;
+      margin-top: 20px;
+
+      .loadingSpinner {
+        font-size: 1rem;
+      }
+    }
+  }
+}

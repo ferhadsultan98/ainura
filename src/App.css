@@ -1,0 +1,11 @@
+@import "./Styles/Fonts.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+ font-family: "Exo2", sans-serif;
+}
+button{
+  outline: none;
+}

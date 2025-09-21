@@ -1,0 +1,206 @@
+.loginRequiredOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 11, 46, 0.9);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  padding: 20px;
+
+  @keyframes fadeIn {
+    from { 
+      opacity: 0; 
+    }
+    to { 
+      opacity: 1; 
+    }
+  }
+
+  .loginRequiredContent {
+    background: linear-gradient(145deg, #1E0A2E, #2C0E45);
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 
+      0 25px 60px rgba(44, 14, 69, 0.4),
+      0 0 0 1px rgba(187, 134, 252, 0.2);
+    animation: slideUp 0.4s ease-out;
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .promptIcon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, #BB86FC, #6C63FF);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 8px 25px rgba(187, 134, 252, 0.4);
+      animation: iconPulse 2s ease-in-out infinite;
+
+      @keyframes iconPulse {
+        0%, 100% {
+          transform: scale(1);
+          box-shadow: 0 8px 25px rgba(187, 134, 252, 0.4);
+        }
+        50% {
+          transform: scale(1.05);
+          box-shadow: 0 12px 30px rgba(187, 134, 252, 0.6);
+        }
+      }
+    }
+
+    h3 {
+      color: #F5F5F7;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #BB86FC, #6C63FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      color: #B8B8CC;
+      font-size: 1rem;
+      line-height: 1.5;
+      margin-bottom: 32px;
+      opacity: 0.9;
+    }
+
+    .promptActions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .loginBtn {
+        background: linear-gradient(135deg, #BB86FC, #6C63FF);
+        border: none;
+        padding: 16px 24px;
+        border-radius: 12px;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
+
+        &:hover {
+          background: linear-gradient(135deg, #6C63FF, #BB86FC);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(187, 134, 252, 0.4);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+
+      .cancelBtn {
+        background: transparent;
+        border: 1px solid rgba(184, 184, 204, 0.3);
+        padding: 12px 24px;
+        border-radius: 12px;
+        color: #B8B8CC;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(184, 184, 204, 0.1);
+          border-color: rgba(184, 184, 204, 0.5);
+          color: #F5F5F7;
+        }
+
+        &:active {
+          transform: scale(0.98);
+        }
+      }
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+      padding: 32px 24px;
+      border-radius: 20px;
+
+      .promptIcon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 20px;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+      }
+
+      p {
+        font-size: 0.9rem;
+        margin-bottom: 24px;
+      }
+
+      .promptActions {
+        gap: 10px;
+
+        .loginBtn {
+          padding: 14px 20px;
+          font-size: 0.95rem;
+        }
+
+        .cancelBtn {
+          padding: 10px 20px;
+          font-size: 0.85rem;
+        }
+      }
+    }
+
+    @media (max-width: 360px) {
+      padding: 28px 20px;
+      border-radius: 18px;
+
+      .promptIcon {
+        width: 55px;
+        height: 55px;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+/* Performance optimizations */
+.loginRequiredOverlay {
+  will-change: opacity;
+  
+  .loginRequiredContent {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+}

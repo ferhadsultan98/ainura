@@ -1,0 +1,272 @@
+/* Scroll to Top Button */
+.scrollToTop {
+  position: fixed;
+  bottom: 40px; // Bottom submenu'nun üstünde
+  right: 20px;
+  z-index: 2;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(30, 10, 46, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.8);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 8px 32px rgba(44, 14, 69, 0.4),
+    0 0 0 1px rgba(187, 134, 252, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* Progress Ring Container */
+  .progressRing {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    
+    /* Progress Bar - CSS Conic Gradient kullanarak */
+    .progressBar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        #BB86FC 0deg,
+        #BB86FC calc(var(--scroll-progress) * 3.6deg),
+        transparent calc(var(--scroll-progress) * 3.6deg),
+        transparent 360deg
+      );
+      mask: radial-gradient(
+        circle at center,
+        transparent 20px,
+        black 22px,
+        black 25px,
+        transparent 27px
+      );
+      -webkit-mask: radial-gradient(
+        circle at center,
+        transparent 20px,
+        black 22px,
+        black 25px,
+        transparent 27px
+      );
+      animation: rotateProgress 0.3s ease-out;
+    }
+  }
+
+  /* Icon Container */
+  .scrollIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #BB86FC;
+    transition: all 0.3s ease;
+    z-index: 2;
+  }
+
+  /* Ripple Effect */
+  .rippleEffect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(187, 134, 252, 0.3);
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
+  }
+
+  /* Visible State */
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  /* Hover State */
+  &:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 
+      0 12px 40px rgba(44, 14, 69, 0.5),
+      0 0 20px rgba(187, 134, 252, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    .scrollIcon {
+      color: #FFFFFF;
+      transform: translateY(-1px) scale(1.1);
+    }
+
+    .progressRing .progressBar {
+      filter: brightness(1.2) drop-shadow(0 0 10px rgba(187, 134, 252, 0.6));
+    }
+  }
+
+  /* Active/Press State */
+  &:active {
+    transform: translateY(-1px) scale(0.95);
+
+    .rippleEffect {
+      width: 60px;
+      height: 60px;
+      opacity: 0;
+    }
+  }
+
+  /* Focus State (Accessibility) */
+  &:focus-visible {
+    outline: 2px solid #BB86FC;
+    outline-offset: 3px;
+  }
+
+  /* Animations */
+  @keyframes rotateProgress {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+
+  /* Progress tamamlandığında pulse efekti */
+  &[style*="--scroll-progress: 100%"] {
+    .scrollIcon {
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+
+  /* --- RESPONSIVE TASARIM --- */
+
+  /* Tablet Görünümü */
+  @media (max-width: 768px) {
+    bottom: 85px;
+    right: 15px;
+    width: 45px;
+    height: 45px;
+
+    .progressRing {
+      width: 49px;
+      height: 49px;
+      top: -2px;
+      left: -2px;
+
+      .progressBar {
+        mask: radial-gradient(
+          circle at center,
+          transparent 18px,
+          black 20px,
+          black 22px,
+          transparent 24px
+        );
+        -webkit-mask: radial-gradient(
+          circle at center,
+          transparent 18px,
+          black 20px,
+          black 22px,
+          transparent 24px
+        );
+      }
+    }
+
+    .scrollIcon {
+      svg {
+        width: 18px !important;
+        height: 18px !important;
+      }
+    }
+  }
+
+  /* Mobil Görünümü */
+  @media (max-width: 480px) {
+    bottom: 80px;
+    right: 12px;
+    width: 42px;
+    height: 42px;
+
+    .progressRing {
+      width: 46px;
+      height: 46px;
+
+      .progressBar {
+        mask: radial-gradient(
+          circle at center,
+          transparent 16px,
+          black 18px,
+          black 20px,
+          transparent 22px
+        );
+        -webkit-mask: radial-gradient(
+          circle at center,
+          transparent 16px,
+          black 18px,
+          black 20px,
+          transparent 22px
+        );
+      }
+    }
+
+    .scrollIcon {
+      svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+    }
+
+    /* Mobilde hover efektini azalt */
+    &:hover {
+      transform: translateY(-2px) scale(1.03);
+    }
+  }
+
+  /* Çok küçük ekranlar */
+  @media (max-width: 360px) {
+    bottom: 75px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+
+    .scrollIcon {
+      svg {
+        width: 14px !important;
+        height: 14px !important;
+      }
+    }
+  }
+}
+
+/* Sayfa yüklenirken animasyon */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.scrollToTop.visible {
+  animation: fadeInUp 0.4s ease-out;
+}

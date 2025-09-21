@@ -1,0 +1,25 @@
+Primary (əsas baza):
+
+#1A0B2E (deep dark purple, background)
+
+#2C0E45 (rich purple, main sections)
+
+Secondary (gradient tonları):
+
+#4B1D60 (softer dark purple, card backgrounds)
+
+#6A2C91 (accent purple, hover states)
+
+Highlight (AI glow effekti üçün):
+
+#8E44AD (bright violet, gradient blend)
+
+#BB86FC (neon violet, glow / buttons)
+
+#00E0FF (cyan glow, futuristic vurğu)
+
+Neutral balans:
+
+#F5F5F7 (light gray, text background üçün)
+
+#CFCFCF (secondary text, borders)

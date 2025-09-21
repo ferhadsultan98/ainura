@@ -1,0 +1,387 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 30px;
+  background: #1a0b2e;
+  color: #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  border-radius: 0 0 15px 15px;
+  box-shadow: 0 4px 20px rgba(44, 14, 69, 0.3);
+
+  @media (max-width: 768px) {
+    padding: 15px;
+    border-radius: 0;
+  }
+
+  .header-logo {
+    display: flex;
+    align-items: center;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    .AiNuraLogo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      @media (max-width: 768px) {
+        width: 36px;
+        height: 36px;
+      }
+
+      @media (max-width: 480px) {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    .logoText {
+      color: #ffffff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+
+      .aiText {
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 24px;
+        transition: color 0.3s ease;
+      }
+
+      .nuraText {
+        color: #bb86fc;
+        font-weight: 800;
+        font-size: 24px;
+        transition: color 0.3s ease;
+      }
+
+      &:hover {
+        .aiText {
+          color: #bb86fc;
+        }
+
+        .nuraText {
+          color: #ffffff;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .aiText,
+        .nuraText {
+          font-size: 22px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .aiText,
+        .nuraText {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    @media (max-width: 768px) {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background-color: #1a0b2e;
+      flex-direction: column;
+      padding: 20px 15px;
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      border-radius: 0 0 15px 15px;
+      box-shadow: 0 4px 20px rgba(44, 14, 69, 0.3);
+      gap: 10px;
+      align-items: flex-start;
+      z-index: 5;
+    }
+
+    &.open {
+      @media (max-width: 768px) {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
+
+    /* Regular Navigation Links */
+    a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+
+      &:hover {
+        color: #bb86fc;
+        background: rgba(187, 134, 252, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;
+        text-align: left;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+    }
+
+    /* Login Button */
+    .login-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #bb86fc, #6c63ff);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
+
+      &:hover {
+        background: linear-gradient(135deg, #6c63ff, #bb86fc);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(187, 134, 252, 0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      span {
+        @media (max-width: 480px) {
+          display: block; // Login text'i mobilde göster
+        }
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px 20px;
+        text-align: left;
+      }
+    }
+
+    /* Profile Section (When Logged In) */
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+        align-items: flex-start;
+      }
+
+      .profile-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(187, 134, 252, 0.15);
+        border: 1px solid rgba(187, 134, 252, 0.3);
+        padding: 8px 16px;
+        border-radius: 20px;
+        color: #bb86fc;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        max-width: 200px; // Username'in çok uzun olması durumunda
+
+        &:hover {
+          background: rgba(187, 134, 252, 0.25);
+          border-color: rgba(187, 134, 252, 0.5);
+          transform: translateY(-1px);
+        }
+
+        .userName {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 120px;
+
+          @media (max-width: 480px) {
+            display: none; // Mobilde sadece icon
+          }
+        }
+
+        // Icon mobilde görünür kalacak
+        svg {
+          flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+          width: 100%;
+          justify-content: flex-start;
+          text-align: left;
+          padding: 12px 16px;
+          max-width: none;
+
+          .userName {
+            display: block; // Tablet'te username'i göster
+            max-width: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          padding: 12px;
+          
+          // .userName {
+          //   display: none; // Mobilde username gizle
+          // }
+        }
+      }
+
+      // Logout butonu artık yok - ProfileModal'da
+    }
+  }
+
+  .hamburger-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    z-index: 5; // Header'dan yüksek olması için
+
+    @media (min-width: 769px) {
+      display: none;
+    }
+
+    button {
+      padding: 12px;
+    }
+  }
+
+  /* Desktop Navigation Styles */
+  @media (min-width: 769px) {
+    .header-nav {
+      position: static;
+      flex-direction: row;
+      background-color: transparent;
+      transform: none;
+      opacity: 1;
+      pointer-events: auto;
+      box-shadow: none;
+      align-items: center;
+      z-index: auto;
+    }
+  }
+
+  /* Mobile Specific Adjustments */
+  @media (max-width: 480px) {
+    padding: 12px 15px;
+
+    .header-logo {
+      .logoText {
+        .aiText,
+        .nuraText {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .header-nav {
+      padding: 15px 10px;
+
+      a,
+      .login-btn,
+      .profile-section .profile-btn {
+        min-width: 44px; // Touch-friendly minimum size
+        justify-content: flex-start;
+        text-align: left;
+      }
+
+      .profile-section {
+        align-items: flex-start;
+      }
+    }
+  }
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.header-nav.open a,
+.header-nav.open .login-btn,
+.header-nav.open .profile-section > * {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Additional styles for better UX */
+.header {
+  // Smooth backdrop blur effect
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  // Better shadow on scroll (if implemented)
+  &.scrolled {
+    box-shadow: 0 6px 25px rgba(44, 14, 69, 0.4);
+  }
+
+  // Focus states for accessibility
+  .header-nav {
+    a:focus,
+    .login-btn:focus,
+    .profile-btn:focus {
+      outline: 2px solid #BB86FC;
+      outline-offset: 2px;
+    }
+  }
+}
+
+// Ensure header doesn't interfere with page content
+body {
+  padding-top: 80px; // Header yüksekliği kadar
+
+  @media (max-width: 768px) {
+    padding-top: 70px;
+  }
+
+  @media (max-width: 480px) {
+    padding-top: 60px;
+  }
+}

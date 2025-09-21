@@ -1,0 +1,8 @@
+.spacer {
+  width: 100%;
+  flex-shrink: 0;
+  height: 60px;
+   @media (max-width: 768px){
+    height: 80px;
+   }
+}

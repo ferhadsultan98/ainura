@@ -1,0 +1,374 @@
+.videoCard {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  .videoContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    .videoPlayer {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    /* Play Control Overlay - Hover'da görünür */
+    .playControlOverlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 2;
+
+      .playControlButton {
+        width: 50px;
+        height: 50px;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        svg {
+          margin-left: 2px; /* Play icon için center adjustment */
+        }
+
+        &:hover {
+          background: rgba(187, 134, 252, 0.8);
+          border-color: #BB86FC;
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    /* Video Duration - Sağ üst köşe */
+    .videoDuration {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      z-index: 1;
+    }
+
+    /* Bottom Bar - ImageCard ile aynı */
+    .bottomBar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.4) 70%,
+        transparent 100%
+      );
+    
+      transition: all 0.3s ease;
+      z-index: 1;
+
+      /* Author Info - Sol taraf */
+      .authorInfo {
+        .authorName {
+          color: #F5F5F7;
+          font-size: 0.8rem;
+          font-weight: 600;
+          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 120px;
+        }
+      }
+
+      /* Action Buttons - Sağ taraf */
+      .actionButtons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .actionBtn {
+          position: relative;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 20px;
+          padding: 6px 8px;
+          color: #F5F5F7;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          font-size: 0.75rem;
+          font-weight: 500;
+          user-select: none;
+          -webkit-tap-highlight-color: transparent;
+
+          /* Tooltip */
+          &::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-5px);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          }
+
+          /* Tooltip Arrow */
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(1px);
+            border: 4px solid transparent;
+            border-top-color: rgba(0, 0, 0, 0.9);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 10;
+          }
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+            &::before,
+            &::after {
+              opacity: 1;
+              visibility: visible;
+              transform: translateX(-50%) translateY(-8px);
+            }
+
+            &::after {
+              transform: translateX(-50%) translateY(-4px);
+            }
+          }
+
+          /* Search Button Specific */
+          &.searchBtn:hover {
+            background: rgba(187, 134, 252, 0.2);
+            border-color: rgba(187, 134, 252, 0.4);
+            color: #BB86FC;
+          }
+
+          /* Like Button Specific */
+          &.likeBtn {
+            &:hover {
+              background: rgba(231, 76, 60, 0.2);
+              border-color: rgba(231, 76, 60, 0.4);
+              color: #E74C3C;
+            }
+
+            &.liked {
+              background: rgba(231, 76, 60, 0.2);
+              border-color: rgba(231, 76, 60, 0.4);
+              color: #E74C3C;
+              
+              svg {
+                animation: heartBeat 0.6s ease-out;
+              }
+            }
+
+            .likesCount {
+              font-size: 0.7rem;
+              font-weight: 600;
+              margin-left: 2px;
+            }
+          }
+
+          /* Active/Press State */
+          &:active {
+            transform: translateY(-1px) scale(0.95);
+          }
+        }
+      }
+    }
+
+    /* Hover Effects - Video için özel */
+    &:hover {
+      .videoPlayer {
+        transform: scale(1.02);
+      }
+
+      .bottomBar {
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.9) 0%,
+          rgba(0, 0, 0, 0.6) 70%,
+          transparent 100%
+        );
+      }
+
+      /* Play control'ü hover'da göster */
+      .playControlOverlay {
+        opacity: 1;
+      }
+    }
+  }
+
+  /* Heart Beat Animation */
+  @keyframes heartBeat {
+    0%, 100% {
+      transform: scale(1);
+    }
+    25% {
+      transform: scale(1.2);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    75% {
+      transform: scale(1.15);
+    }
+  }
+
+  /* --- RESPONSIVE DESIGN --- */
+  @media (max-width: 768px) {
+    .videoContainer {
+      .playControlOverlay .playControlButton {
+        width: 45px;
+        height: 45px;
+
+        svg {
+          width: 18px !important;
+          height: 18px !important;
+        }
+      }
+
+      .videoDuration {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+      }
+
+      .bottomBar {
+        padding: 6px 10px;
+
+        .authorInfo .authorName {
+          font-size: 0.7rem;
+          max-width: 100px;
+        }
+
+        .actionButtons {
+          gap: 6px;
+
+          .actionBtn {
+            padding: 5px 7px;
+            
+            svg {
+              width: 14px !important;
+              height: 14px !important;
+            }
+
+            .likesCount {
+              font-size: 0.65rem;
+            }
+
+            &::before {
+              font-size: 0.65rem;
+              padding: 4px 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .videoContainer {
+      .playControlOverlay .playControlButton {
+        width: 40px;
+        height: 40px;
+
+        svg {
+          width: 16px !important;
+          height: 16px !important;
+        }
+      }
+
+      .videoDuration {
+        font-size: 0.6rem;
+        padding: 2px 5px;
+        top: 6px;
+        right: 6px;
+      }
+
+      .bottomBar {
+        padding: 4px 8px;
+
+        .authorInfo .authorName {
+          font-size: 0.65rem;
+          max-width: 80px;
+        }
+
+        .actionButtons {
+          gap: 4px;
+
+          .actionBtn {
+            padding: 4px 6px;
+            border-radius: 16px;
+
+            svg {
+              width: 12px !important;
+              height: 12px !important;
+            }
+
+            .likesCount {
+              font-size: 0.6rem;
+            }
+
+            /* Mobilde tooltip'i daha küçük yap */
+            &::before {
+              font-size: 0.6rem;
+              padding: 3px 6px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

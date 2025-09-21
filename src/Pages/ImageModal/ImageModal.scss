@@ -1,0 +1,541 @@
+/* Ana Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(26, 11, 46, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+  padding: 20px;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Modal İçeriği */
+  .modalContent {
+    background: linear-gradient(145deg, #1E0A2E, #2C0E45);
+    border-radius: 16px;
+    box-shadow: 
+      0 20px 40px rgba(187, 134, 252, 0.3),
+      0 0 0 1px rgba(187, 134, 252, 0.1);
+    max-width: 900px;
+    max-height: 80vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    transform: scale(0.9) translateY(20px);
+    animation: slideIn 0.4s ease-out 0.1s forwards;
+
+    @keyframes slideIn {
+      from {
+        transform: scale(0.9) translateY(20px);
+      }
+      to {
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* Kapatma Butonu */
+    .closeBtn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(187, 134, 252, 0.1);
+      border: 1px solid rgba(187, 134, 252, 0.3);
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #BB86FC;
+      cursor: pointer;
+      z-index: 6;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: rgba(187, 134, 252, 0.2);
+        transform: rotate(90deg) scale(1.1);
+      }
+    }
+
+    /* Modal Ana İçeriği */
+    .modalBody {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      height: 70vh;
+      max-height: 600px;
+
+      /* Resim Bölümü */
+      .imageSection {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #1A0B2E, #16051F);
+
+        .imageContainer {
+          width: 100%;
+          height: 100%;
+          position: relative;
+
+          .modalImage {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+
+            &:hover {
+              transform: scale(1.02);
+            }
+          }
+
+          /* Image Overlay - Author ve Likes */
+          .imageOverlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(
+              to top,
+              rgba(0, 0, 0, 0.8) 0%,
+              rgba(0, 0, 0, 0.4) 70%,
+              transparent 100%
+            );
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .authorInfo {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+
+              .authorAvatar {
+                width: 24px;
+                height: 24px;
+                background: linear-gradient(135deg, #BB86FC, #6C63FF);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                flex-shrink: 0;
+              }
+
+              .authorName {
+                color: #F5F5F7;
+                font-size: 0.85rem;
+                font-weight: 600;
+                text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+              }
+            }
+
+            .likesInfo {
+              .likeBtn {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(231, 76, 60, 0.2);
+                border: 1px solid rgba(231, 76, 60, 0.4);
+                border-radius: 20px;
+                padding: 6px 12px;
+                color: #E74C3C;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 0.8rem;
+                font-weight: 600;
+
+                &:hover {
+                  background: rgba(231, 76, 60, 0.3);
+                  transform: translateY(-1px);
+                  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      /* Bilgi Bölümü */
+      .infoSection {
+        padding: 20px;
+        overflow-y: auto;
+        background: rgba(30, 10, 46, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        /* Custom Scrollbar */
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: rgba(187, 134, 252, 0.1);
+          border-radius: 3px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: rgba(187, 134, 252, 0.3);
+          border-radius: 3px;
+
+          &:hover {
+            background: rgba(187, 134, 252, 0.5);
+          }
+        }
+
+        /* Prompt Bölümü */
+        .promptSection {
+          margin-bottom: 20px;
+
+          .promptHeader {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .promptTitle {
+              font-size: 1.1rem;
+              font-weight: 700;
+              color: #BB86FC;
+              margin: 0;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+            }
+
+            .copyBtn {
+              background: rgba(187, 134, 252, 0.1);
+              border: 1px solid rgba(187, 134, 252, 0.3);
+              border-radius: 8px;
+              padding: 6px;
+              color: #BB86FC;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              &:hover {
+                background: rgba(187, 134, 252, 0.2);
+                transform: scale(1.05);
+              }
+
+              &.copied {
+                background: rgba(34, 197, 94, 0.2);
+                border-color: rgba(34, 197, 94, 0.4);
+                color: #22C55E;
+              }
+            }
+          }
+
+          .promptTextContainer {
+            background: rgba(187, 134, 252, 0.05);
+            border: 1px solid rgba(187, 134, 252, 0.15);
+            border-radius: 10px;
+            padding: 12px;
+            border-left: 3px solid #BB86FC;
+
+            .promptText {
+              color: #F5F5F7;
+              font-size: 0.9rem;
+              line-height: 1.6;
+              margin: 0;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+              
+              /* Multi-line ellipsis for very long text */
+              display: -webkit-box;
+              -webkit-line-clamp: 8;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+          }
+        }
+
+        /* Yorumlar Bölümü */
+        .commentsSection {
+          .commentsTitle {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #BB86FC;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+          }
+
+          .commentsList {
+            margin-bottom: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+
+            .noComments {
+              color: #B8B8CC;
+              font-style: italic;
+              text-align: center;
+              padding: 15px;
+              background: rgba(187, 134, 252, 0.03);
+              border-radius: 8px;
+              border: 1px dashed rgba(187, 134, 252, 0.2);
+              font-size: 0.85rem;
+            }
+
+            .commentItem {
+              display: flex;
+              gap: 8px;
+              margin-bottom: 8px;
+              padding: 8px;
+              background: rgba(245, 245, 247, 0.03);
+              border-radius: 6px;
+              border-left: 2px solid rgba(187, 134, 252, 0.3);
+
+              .commentAvatar {
+                width: 20px;
+                height: 20px;
+                background: linear-gradient(135deg, #6C63FF, #BB86FC);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                flex-shrink: 0;
+              }
+
+              .commentContent {
+                color: #F5F5F7;
+                line-height: 1.4;
+                font-size: 0.8rem;
+                word-wrap: break-word;
+              }
+            }
+          }
+
+          /* Yorum Ekleme Formu */
+          .addCommentForm {
+            .inputGroup {
+              margin-bottom: 10px;
+
+              .commentInput {
+                width: 100%;
+                background: rgba(245, 245, 247, 0.05);
+                border: 1px solid rgba(187, 134, 252, 0.2);
+                border-radius: 6px;
+                padding: 8px 10px;
+                color: #F5F5F7;
+                font-size: 0.85rem;
+                transition: all 0.3s ease;
+                resize: vertical;
+                min-height: 50px;
+                font-family: inherit;
+
+                &::placeholder {
+                  color: #B8B8CC;
+                }
+
+                &:focus {
+                  outline: none;
+                  border-color: #BB86FC;
+                  box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.1);
+                  background: rgba(245, 245, 247, 0.08);
+                }
+              }
+            }
+
+            .addCommentBtn {
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              background: linear-gradient(135deg, #BB86FC, #6C63FF);
+              border: none;
+              padding: 8px 14px;
+              border-radius: 20px;
+              color: white;
+              cursor: pointer;
+              font-weight: 600;
+              font-size: 0.8rem;
+              transition: all 0.3s ease;
+
+              &:hover:not(:disabled) {
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(187, 134, 252, 0.4);
+              }
+
+              &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* --- RESPONSIVE TASARIM --- */
+  @media (max-width: 1024px) {
+    padding: 15px;
+
+    .modalContent {
+      max-width: 800px;
+      max-height: 75vh;
+
+      .modalBody {
+        grid-template-columns: 1fr;
+        height: auto;
+
+        .imageSection {
+          height: 40vh;
+          min-height: 200px;
+
+          .imageContainer .imageOverlay {
+            padding: 10px 12px;
+
+            .authorInfo {
+              .authorAvatar {
+                width: 20px;
+                height: 20px;
+              }
+
+              .authorName {
+                font-size: 0.8rem;
+              }
+            }
+
+            .likesInfo .likeBtn {
+              padding: 5px 10px;
+              font-size: 0.75rem;
+            }
+          }
+        }
+
+        .infoSection {
+          height: auto;
+          max-height: 35vh;
+          padding: 16px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+
+    .modalContent {
+      border-radius: 12px;
+      max-height: 90vh;
+
+      .closeBtn {
+        top: 8px;
+        right: 8px;
+        width: 28px;
+        height: 28px;
+      }
+
+      .modalBody {
+        .imageSection {
+          height: 35vh;
+          min-height: 180px;
+
+          .imageContainer .imageOverlay {
+            padding: 8px 10px;
+
+            .authorInfo .authorName {
+              font-size: 0.75rem;
+            }
+
+            .likesInfo .likeBtn {
+              padding: 4px 8px;
+              font-size: 0.7rem;
+            }
+          }
+        }
+
+        .infoSection {
+          padding: 12px;
+
+          .promptSection {
+            .promptHeader .copyBtn {
+              padding: 4px;
+
+              svg {
+                width: 14px !important;
+                height: 14px !important;
+              }
+            }
+
+            .promptTextContainer .promptText {
+              font-size: 0.8rem;
+              -webkit-line-clamp: 6;
+            }
+          }
+
+          .commentsSection {
+            .commentsList {
+              max-height: 120px;
+
+              .commentItem {
+                padding: 6px;
+
+                .commentAvatar {
+                  width: 18px;
+                  height: 18px;
+                }
+
+                .commentContent {
+                  font-size: 0.75rem;
+                }
+              }
+            }
+
+            .addCommentForm .addCommentBtn {
+              padding: 6px 12px;
+              font-size: 0.75rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+
+    .modalContent {
+      border-radius: 10px;
+
+      .modalBody {
+        .imageSection {
+          height: 30vh;
+          min-height: 150px;
+        }
+
+        .infoSection {
+          padding: 10px;
+
+          .promptSection .promptTextContainer .promptText {
+            font-size: 0.75rem;
+            -webkit-line-clamp: 4;
+          }
+        }
+      }
+    }
+  }
+}

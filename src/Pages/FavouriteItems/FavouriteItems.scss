@@ -1,0 +1,497 @@
+/* Ana galeri konteyneri */
+.imageGallery {
+  width: 100%;
+  min-height: 100vh;
+  color: #F5F5F7;
+  position: relative;
+
+
+  /* Favorites Header */
+  .favoritesHeader {
+    margin-bottom: 30px;
+
+    .headerTop {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      .titleSection {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .heartIcon {
+          color: #E74C3C;
+          filter: drop-shadow(0 0 8px rgba(231, 76, 60, 0.5));
+        }
+
+        .galleryTitle {
+          font-size: 3rem;
+          font-weight: 800;
+          color: #BB86FC;
+          margin: 0;
+        }
+
+        .itemCount {
+          font-size: 1.1rem;
+          color: #B8B8CC;
+          font-weight: 500;
+        }
+      }
+
+      .headerControls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+     
+
+        .filterToggle {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(187, 134, 252, 0.1);
+          border: 1px solid rgba(187, 134, 252, 0.2);
+          border-radius: 12px;
+          padding: 10px 16px;
+          color: #B8B8CC;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-weight: 500;
+
+          &:hover {
+            color: #BB86FC;
+            background: rgba(187, 134, 252, 0.15);
+          }
+
+          &.active {
+            background: #BB86FC;
+            color: white;
+            box-shadow: 0 2px 8px rgba(187, 134, 252, 0.3);
+          }
+        }
+      }
+    }
+
+    .searchSection {
+      margin-bottom: 20px;
+
+      .searchInputContainer {
+        position: relative;
+        max-width: 600px;
+
+        .searchIcon {
+          position: absolute;
+          left: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #BB86FC;
+        }
+
+        .searchInput {
+          width: 100%;
+          padding: 16px 16px 16px 48px;
+          background: rgba(245, 245, 247, 0.05);
+          border: 2px solid rgba(187, 134, 252, 0.2);
+          border-radius: 16px;
+          color: #F5F5F7;
+          font-size: 1rem;
+          transition: all 0.3s ease;
+
+          &::placeholder {
+            color: #B8B8CC;
+          }
+
+          &:focus {
+            outline: none;
+            border-color: #BB86FC;
+            background: rgba(245, 245, 247, 0.08);
+            box-shadow: 0 0 0 4px rgba(187, 134, 252, 0.1);
+          }
+        }
+
+        .clearSearchBtn {
+          position: absolute;
+          right: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(187, 134, 252, 0.2);
+          border: none;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #BB86FC;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:hover {
+            background: rgba(187, 134, 252, 0.3);
+            transform: translateY(-50%) scale(1.1);
+          }
+        }
+      }
+    }
+
+    .filtersPanel {
+      background: rgba(187, 134, 252, 0.05);
+      border: 1px solid rgba(187, 134, 252, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      animation: slideDown 0.3s ease-out;
+
+      @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .filterGroup {
+        margin-bottom: 20px;
+        &:last-child { margin-bottom: 0; }
+
+        h3 {
+          color: #BB86FC;
+          font-size: 1rem;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        .filterTabs {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+
+          .filterTab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(187, 134, 252, 0.2);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: #B8B8CC;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+
+            &:hover {
+              color: #BB86FC;
+              background: rgba(187, 134, 252, 0.1);
+            }
+
+            &.active {
+              background: #BB86FC;
+              color: white;
+              border-color: #BB86FC;
+            }
+          }
+        }
+
+        .sortSelect {
+          background: rgba(245, 245, 247, 0.05);
+          border: 1px solid rgba(187, 134, 252, 0.2);
+          border-radius: 8px;
+          padding: 10px 12px;
+          color: #F5F5F7;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+
+          &:focus {
+            outline: none;
+            border-color: #BB86FC;
+            box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.1);
+          }
+
+          option {
+            background: #2C0E45;
+            color: #F5F5F7;
+          }
+        }
+      }
+    }
+  }
+
+  .emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    background: rgba(30, 10, 46, 0.3);
+    border-radius: 20px;
+    border: 1px dashed rgba(187, 134, 252, 0.3);
+
+    .emptyIcon {
+      color: #E74C3C;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    h2 {
+      color: #F5F5F7;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #B8B8CC;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .clearSearchButton {
+      background: linear-gradient(135deg, #BB86FC, #6C63FF);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 12px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(187, 134, 252, 0.4);
+      }
+    }
+  }
+
+  /* Ana Grid Konteyneri (Masaüstü için) */
+  .featureColumnGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 250px; 
+    gap: 5px;
+    box-sizing: border-box;
+    position: relative;
+
+    .gridItem {
+      overflow: hidden;
+      cursor: pointer;
+      background-color: #2C0E45;
+      transition: box-shadow 0.3s ease, transform 0.3s ease, opacity 0.6s ease, filter 0.6s ease;
+      border-radius: 10px;
+      position: relative;
+
+      &:hover {
+        box-shadow: 0 12px 24px rgba(187, 134, 252, 0.35);
+        z-index: 1;
+
+        .removeFavoriteBtn {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .imageCard, img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      
+      &.item-standard {
+        grid-row: span 1; 
+      }
+
+      &.item-tall {
+        grid-row: span 2;
+      }
+
+      /* Lazy Load Animation */
+      &.lazy-item {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+        filter: blur(5px);
+        animation: lazyFadeIn 0.8s ease-out forwards;
+      }
+
+    
+    }
+  }
+
+  /* Blur Fade Overlay */
+  .blurFadeOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    pointer-events: none;
+    z-index: 2;
+
+    .blurGradient {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(44, 14, 69, 0.3) 40%,
+        rgba(44, 14, 69, 0.7) 70%,
+        rgba(44, 14, 69, 0.95) 100%
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  }
+
+  /* Loading Trigger */
+  .loadingTrigger {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+
+    .loadingSpinner {
+      color: #BB86FC;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0.8;
+      animation: pulse 2s ease-in-out infinite;
+    }
+  }
+
+  /* Animasyonlar */
+  @keyframes lazyFadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(30px) scale(0.95);
+      filter: blur(8px);
+    }
+    50% {
+      opacity: 0.7;
+      transform: translateY(15px) scale(0.98);
+      filter: blur(4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  /* --- RESPONSIVE DEĞİŞİKLİKLERİ --- */
+
+  /* Tablet ve Mobil Görünüm (992px ve altı) */
+  @media (max-width: 992px) {
+    .favoritesHeader {
+      .headerTop {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+
+        .titleSection .galleryTitle { 
+          font-size: 2.5rem; 
+        }
+
+        .headerControls {
+          width: 100%;
+          justify-content: space-between;
+        }
+      }
+    }
+
+    .featureColumnGrid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+
+      .gridItem {
+        grid-row: auto;
+        grid-column: auto;
+        aspect-ratio: 16 / 10;
+        height: auto;
+      }
+    }
+
+    .blurFadeOverlay {
+      height: 150px;
+    }
+  }
+
+  /* Mobil Görünüm (768px ve altı) */
+  @media (max-width: 768px) {
+    .favoritesHeader {
+      .headerTop .titleSection .galleryTitle { 
+        font-size: 2rem; 
+      }
+
+      .searchSection .searchInputContainer .searchInput {
+        padding: 14px 14px 14px 44px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .blurFadeOverlay {
+      height: 120px;
+      
+      .blurGradient {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+      }
+    }
+
+    .loadingTrigger {
+      height: 80px;
+      margin-top: 20px;
+
+      .loadingSpinner {
+        font-size: 1rem;
+      }
+    }
+
+    .gridItem .removeFavoriteBtn {
+      width: 28px;
+      height: 28px;
+      top: 6px;
+      right: 6px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .favoritesHeader {
+      .headerTop .titleSection {
+        .heartIcon {
+          width: 24px;
+          height: 24px;
+        }
+
+        .galleryTitle {
+          font-size: 1.5rem;
+        }
+
+        .itemCount {
+          font-size: 0.9rem;
+        }
+      }
+
+      .searchSection .searchInputContainer .searchInput {
+        padding: 12px 12px 12px 36px;
+        font-size: 0.85rem;
+      }
+    }
+
+    .gridItem .removeFavoriteBtn {
+      width: 24px;
+      height: 24px;
+      top: 4px;
+      right: 4px;
+
+      svg {
+        width: 12px !important;
+        height: 12px !important;
+      }
+    }
+  }
+}

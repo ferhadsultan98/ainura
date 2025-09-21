@@ -1,0 +1,329 @@
+.welcomeButton {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  z-index: 2;
+  
+  /* Message Bubble */
+  .messageBubble {
+    position: absolute;
+    bottom: 70px;
+    right: -10px;
+    background: linear-gradient(135deg, #BB86FC, #6C63FF);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 20px 20px 5px 20px;
+    min-width: 200px;
+    max-width: 280px;
+    box-shadow: 
+      0 8px 32px rgba(187, 134, 252, 0.3),
+      0 0 0 1px rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    animation: bubbleSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    .bubbleContent {
+      display: flex;
+      align-items: center;
+      font-size: 0.9rem;
+      font-weight: 600;
+      line-height: 1.4;
+
+      .typedText {
+        min-height: 1.4em;
+      }
+
+      .cursor {
+        animation: blink 1s infinite;
+        margin-left: 2px;
+        font-weight: normal;
+      }
+    }
+
+    /* Speech Bubble Arrow */
+    .bubbleArrow {
+      position: absolute;
+      bottom: -8px;
+      right: 20px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #BB86FC;
+    }
+
+    /* Hover effect */
+    &:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 
+        0 12px 40px rgba(187, 134, 252, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  /* Welcome Button */
+  .welcomeBtn {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1A0B2E, #2C0E45);
+    box-shadow: 
+      0 8px 32px rgba(44, 14, 69, 0.4),
+      0 0 0 1px rgba(187, 134, 252, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    overflow: hidden;
+    animation: buttonBounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.3s ease;
+
+    .buttonContent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      position: relative;
+      z-index: 2;
+
+      .waveHand {
+        font-size: 24px;
+        animation: waveAnimation 2.5s ease-in-out infinite;
+        transform-origin: 70% 70%;
+        display: inline-block;
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+      }
+
+      .buttonText {
+        color: #BB86FC;
+        font-size: 0.6rem;
+        font-weight: 700;
+        margin-top: 2px;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 0.5px;
+      }
+    }
+
+    /* Ripple Effects */
+    .ripple {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      border: 2px solid rgba(187, 134, 252, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      animation: rippleEffect 3s ease-out infinite;
+
+      &.delay-1 {
+        animation-delay: 1s;
+        border-color: rgba(187, 134, 252, 0.2);
+      }
+
+      &.delay-2 {
+        animation-delay: 2s;
+        border-color: rgba(187, 134, 252, 0.1);
+      }
+    }
+
+    /* Hover State */
+    &:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 12px 40px rgba(44, 14, 69, 0.5),
+        0 0 20px rgba(187, 134, 252, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+      .waveHand {
+        animation-duration: 1.5s; /* Faster waving on hover */
+      }
+
+      .buttonText {
+        color: #FFFFFF;
+      }
+    }
+
+    /* Active State */
+    &:active {
+      transform: translateY(-1px) scale(0.95);
+    }
+  }
+
+  /* Animations */
+  @keyframes buttonBounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) translateY(50px);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05) translateY(-5px);
+    }
+    70% {
+      transform: scale(0.95) translateY(2px);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes bubbleSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes waveAnimation {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(14deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(10deg); }
+    60% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  @keyframes rippleEffect {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(2.5);
+      opacity: 0;
+    }
+  }
+
+  @keyframes blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+
+  /* --- RESPONSIVE DESIGN --- */
+  @media (max-width: 768px) {
+    bottom: 85px;
+    right: 15px;
+
+    .welcomeBtn {
+      width: 55px;
+      height: 55px;
+
+      .buttonContent {
+        .waveHand {
+          font-size: 22px;
+        }
+
+        .buttonText {
+          font-size: 0.55rem;
+        }
+      }
+    }
+
+    .messageBubble {
+      bottom: 65px;
+      right: -5px;
+      min-width: 180px;
+      max-width: 250px;
+      padding: 10px 14px;
+
+      .bubbleContent {
+        font-size: 0.85rem;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    bottom: 80px;
+    right: 12px;
+
+    .welcomeBtn {
+      width: 50px;
+      height: 50px;
+
+      .buttonContent {
+        .waveHand {
+          font-size: 20px;
+        }
+
+        .buttonText {
+          font-size: 0.5rem;
+        }
+      }
+    }
+
+    .messageBubble {
+      bottom: 60px;
+      right: 0;
+      min-width: 160px;
+      max-width: 220px;
+      padding: 8px 12px;
+      border-radius: 18px 18px 4px 18px;
+
+      .bubbleContent {
+        font-size: 0.8rem;
+      }
+
+      .bubbleArrow {
+        right: 15px;
+        border-left-width: 8px;
+        border-right-width: 8px;
+        border-top-width: 8px;
+      }
+    }
+  }
+
+  @media (max-width: 360px) {
+    bottom: 75px;
+    right: 10px;
+
+    .welcomeBtn {
+      width: 45px;
+      height: 45px;
+
+      .buttonContent {
+        .waveHand {
+          font-size: 18px;
+        }
+
+        .buttonText {
+          font-size: 0.45rem;
+        }
+      }
+    }
+
+    .messageBubble {
+      min-width: 140px;
+      max-width: 200px;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+/* Auto-hide animation */
+.welcomeButton {
+  &.hiding {
+    animation: fadeOut 0.5s ease-out forwards;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+    pointer-events: none;
+  }
+}
