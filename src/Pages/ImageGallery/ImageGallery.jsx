@@ -2,74 +2,90 @@ import React, { useState, useEffect, useRef } from "react";
 import "./ImageGallery.scss";
 import ImageCard from "../ImageCard/ImageCard";
 import ImageModal from "../ImageModal/ImageModal";
-import localImagesData from "./imagesData.json"; // Local JSON verisi
+import imagesData from "./imagesData.json";
 
 function ImageGallery() {
-  // --- STATE TANIMLAMALARI ---
-  const [images, setImages] = useState([]); // Tüm resimlerin birleştirilmiş hali
+  const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [visibleItems, setVisibleItems] = useState(12); // Başlangıçta gösterilecek resim sayısı
-  const [loading, setLoading] = useState(true); // Veri yükleme durumu
-  const [error, setError] = useState(null); // Hata durumu
+  const [visibleItems, setVisibleItems] = useState(6);
+  const [loading, setLoading] = useState(false); // Backend yükləməsi üçün
+  const [error, setError] = useState(null);
   const observerRef = useRef(null);
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  // --- VERİ ÇEKME VE BİRLEŞTİRME ---
+  // İlk öncə local JSON məlumatlarını yüklə
   useEffect(() => {
-    const fetchAndCombineImages = async () => {
+    // Local JSON'dan resimleri ölçülendirərək hazırlayırıq
+    const localSizedImages = imagesData.images.map((img, index) => {
+      let size = 'standard';
+      if (index % 4 === 0) {
+        size = (index / 4) % 2 === 0 ? 'tall' : 'standard';
+      }
+      return { ...img, id: `local-${img.id}`, size };
+    });
+
+    // Dərhal local məlumatları göstər
+    setImages(localSizedImages);
+  }, []);
+
+  // Sonra backend'dən məlumatları çək
+  useEffect(() => {
+    const fetchBackendImages = async () => {
+      if (!API_BASE_URL) return; // API URL yoxdursa, çıx
+
       setLoading(true);
       setError(null);
 
       try {
-        // 1. Backend'den resimleri çek
         const response = await fetch(`${API_BASE_URL}/api/images/`);
         if (!response.ok) {
-          throw new Error('Backend\'den veriler alınamadı.');
+          throw new Error('Backend məlumatları yüklənərkən xəta baş verdi.');
         }
+        
         const backendData = await response.json();
         
-        // 2. Local JSON verisini al
-        const localImages = localImagesData.images;
-
-        // 3. Verileri birleştir: Yeni yüklenenler (backend) en başta olsun
-        // ID çakışmasını önlemek için local veriye 'local-' ön eki ekleyebiliriz
-        const formattedLocalImages = localImages.map(img => ({ ...img, id: `local-${img.id}` }));
-        const combinedImages = [...backendData.images, ...formattedLocalImages];
+        // Backend'dən gələn resimlərə də ölçü təyin edirik
+        const backendSizedImages = backendData.images.map((img, index) => {
+          let size = 'standard';
+          if (index % 4 === 0) {
+            size = (index / 4) % 2 === 0 ? 'tall' : 'standard';
+          }
+          return { ...img, size };
+        });
         
-        setImages(combinedImages);
+        // Backend məlumatlarını əvvəlki məlumatlarla birləşdir (yeni olanlar başda)
+        setImages(prevImages => [...backendSizedImages, ...prevImages]);
 
       } catch (err) {
+        console.error('Backend məlumatları yüklənə bilmədi:', err);
         setError(err.message);
-        // Hata durumunda sadece local veriyi göster
-        setImages(localImagesData.images);
+        // Xəta baş verərsə, local məlumatlar onsuz da göstərilib
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAndCombineImages();
+    fetchBackendImages();
   }, [API_BASE_URL]);
 
-
-  // --- SONSUZ KAYDIRMA (INFINITE SCROLL) ---
-  const loadMoreImages = () => {
-    if (visibleItems >= images.length) return; // Tüm resimler yüklendiyse dur
-    
-    // Her seferinde 6 resim daha ekle
+  const loadMoreImages = () => { 
+    if (visibleItems >= images.length) return;
     setVisibleItems(prev => Math.min(prev + 6, images.length));
   };
 
   useEffect(() => {
+    const currentObserver = observerRef.current;
     const observer = new IntersectionObserver(
-      entries => {
-        if (entries[0].isIntersecting) {
-          loadMoreImages();
-        }
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadMoreImages();
+          }
+        });
       },
-      { rootMargin: '200px', threshold: 0.1 }
+      { root: null, rootMargin: '200px', threshold: 0.1 }
     );
 
-    const currentObserver = observerRef.current;
     if (currentObserver) {
       observer.observe(currentObserver);
     }
@@ -79,56 +95,55 @@ function ImageGallery() {
         observer.unobserve(currentObserver);
       }
     };
-  }, [visibleItems, images]); // 'images' bağımlılığını ekledik
+  }, [visibleItems, images]);
 
-
-  // --- EVENT HANDLERS ---
   const handleImageClick = (image) => setSelectedImage(image);
   const handleCloseModal = () => setSelectedImage(null);
-  
-  // TODO: Bu fonksiyonları backend'e bağla
   const handleLike = (imageId) => console.log('Liked image:', imageId);
   const handleComment = (imageId, comment) => console.log('New comment:', imageId, comment);
 
-  // Gösterilecek resim dilimini al
   const visibleImages = images.slice(0, visibleItems);
 
-  // --- RENDER ---
   return (
     <div className="imageGallery">
       <div className="galleryHeader">
-        <h2 className="galleryTitle">Keşfet</h2>
+        <h2 className="galleryTitle">Explore</h2>
+        {/* Backend yükləmə statusunu göstər */}
+        {loading && <div className="apiLoadingBadge">Yeni məlumatlar yüklənir...</div>}
+        {error && <div className="apiErrorBadge">API əlçatmazsızdır</div>}
       </div>
       
-      {loading && <div className="loadingSpinner large-spinner">Yükleniyor...</div>}
-      {error && <div className="errorMessage">{error}</div>}
+      <div className="featureColumnGrid">
+        {visibleImages.map((img, index) => (
+          <div
+            key={img.id}
+            className={`gridItem item-${img.size} ${index >= 6 ? 'lazy-item' : ''}`}
+            onClick={() => handleImageClick(img)}
+            style={{ animationDelay: `${(index - 6) * 0.1}s` }}
+          >
+            {/* ✅ DÜZƏLİŞ: Prop'u düzgün formatda ötürürük */}
+            <ImageCard image={{ ...img, url: img.image || img.url }} />
+          </div>
+        ))}
+      </div>
 
-      {!loading && !error && (
-        <>
-        <div className="featureColumnGrid">
-  {visibleImages.map((img) => (
-    <div key={img.id} className="gridItem" onClick={() => handleImageClick(img)}>
-      
-      {/* ✅ DÜZƏLİŞ BURADA */}
-      {/* Backend'dən gələn 'image' sahəsini və ya local JSON'dakı 'url' sahəsini 'url' adı ilə göndər */}
-      <ImageCard image={{ ...img, url: img.image || img.url }} />
+      {/* Blur Fade Overlay */}
+      {visibleItems < images.length && (
+        <div className="blurFadeOverlay">
+          <div className="blurGradient"></div>
+        </div>
+      )}
 
-    </div>
-  ))}
-</div>
-
-          {/* Yükleme tetikleyicisi */}
-          {visibleItems < images.length && (
-            <div ref={observerRef} className="loadingTrigger">
-              <span>Daha fazla yükleniyor...</span>
-            </div>
-          )}
-        </>
+      {/* Loading Trigger */}
+      {visibleItems < images.length && (
+        <div ref={observerRef} className="loadingTrigger">
+          <div className="loadingSpinner">Loading more images...</div>
+        </div>
       )}
 
       {selectedImage && (
         <ImageModal
-          image={{...selectedImage, url: selectedImage.image_url || selectedImage.url}}
+          image={{ ...selectedImage, url: selectedImage.image || selectedImage.url }}
           onClose={handleCloseModal}
           onLike={handleLike}
           onComment={handleComment}
